@@ -1,14 +1,38 @@
 # ns_firebase_utils
 
-A new Flutter package.
+🦾 Set of methods/extensions for firebase that makes using framework in a much easier and clean way also adds additional functionality.
 
-## Getting Started
+## Let's get started
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+1. Go to `pubspec.yaml` 
+2. add a ns_firebase_utils and replace `[version]` with the latest version:  
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  ns_firebase_utils: ^[version]
+```
+3. click the packages get button or *flutter pub get*  
+
+## Import the package
+
+```dart
+import 'package:ns_firebase_utils/src.dart';
+```
+
+## What's in the box
+
+ 
+
+
+## Contributing
+
+There are couple of ways in which you can contribute.
+- Propose any feature, enhancement
+- Report a bug
+- Fix a bug
+- Participate in a discussion and help in decision making
+- Write and improve some **documentation**. Documentation is super critical and its importance
+  cannot be overstated!
+- Send in a Pull Request :-)
