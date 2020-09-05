@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+SetOptions mergeOption = SetOptions(
+  merge: true,
+);
+
 class FirebaseApi {
   final String path;
   CollectionReference ref;
@@ -35,9 +39,7 @@ class FirebaseApi {
   Future<void> updateDocument({String id, Map<String, dynamic> data}) {
     return ref.doc(id).set(
           data,
-          SetOptions(
-            merge: true,
-          ),
+          mergeOption,
         );
   }
 }

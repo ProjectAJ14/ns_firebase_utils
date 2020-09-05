@@ -18,6 +18,7 @@ dependencies:
   firestore_ui: ^1.11.0
   firebase_analytics: ^6.0.0
   firebase_crashlytics: ^0.1.4+1
+  firebase_dynamic_links: ^0.6.0
 
   #</editor-fold>
 
