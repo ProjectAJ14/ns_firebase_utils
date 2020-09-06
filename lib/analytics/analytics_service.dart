@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:ns_firebase_utils/utils/logs.dart';
 import 'package:ns_firebase_utils/utils/nsf_exception.dart';
 import 'package:ns_firebase_utils/utils/nsf_keys.dart';
