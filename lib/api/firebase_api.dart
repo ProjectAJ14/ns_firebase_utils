@@ -5,6 +5,8 @@ SetOptions mergeOption = SetOptions(
   merge: true,
 );
 
+final mockFirestoreInstance = MockFirestoreInstance();
+
 class FirebaseApi {
   final String path;
   CollectionReference ref;
@@ -12,7 +14,7 @@ class FirebaseApi {
 
   FirebaseApi(this.path, {this.isTest: false}) {
     if (isTest)
-      ref = MockFirestoreInstance().collection(path);
+      ref = mockFirestoreInstance.collection(path);
     else
       ref = FirebaseFirestore.instance.collection(path);
   }
@@ -43,7 +45,7 @@ class FirebaseApi {
 
   WriteBatch batch() {
     if (isTest)
-      return MockFirestoreInstance().batch();
+      return mockFirestoreInstance.batch();
     else
       return FirebaseFirestore.instance.batch();
   }
