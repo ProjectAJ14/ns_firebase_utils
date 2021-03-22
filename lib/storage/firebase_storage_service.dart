@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:ns_firebase_utils/utils/logs.dart';
-import 'package:ns_firebase_utils/utils/nsf_exception.dart';
 
 class FirebaseStorageService {
   static Future<String> uploadFile(
@@ -10,22 +9,21 @@ class FirebaseStorageService {
     String path, {
     Map<String, String> customMetadata = const {},
   }) async {
-    StorageReference storageReference =
-        FirebaseStorage.instance.ref().child(path);
+    Reference storageReference = FirebaseStorage.instance.ref().child(path);
 
-    final StorageUploadTask uploadTask = storageReference.putFile(
+    final UploadTask uploadTask = storageReference.putFile(
       file,
-      StorageMetadata(
+      SettableMetadata(
         contentLanguage: 'en',
         customMetadata: customMetadata,
       ),
     );
 
-    await uploadTask.onComplete.catchError((error) {
-      throw NSFException.defaultException(error);
-    }).then((data) {
-      nsfLogs("uploadFile Complete");
+    TaskSnapshot snapshot = await uploadTask.whenComplete(() {
+      nsfLogs("uploadTask whenComplete");
     });
+
+    nsfLogs("uploadTask whenComplete[${snapshot.state.index}]");
 
     String fileURL = await storageReference.getDownloadURL();
     nsfLogs("uploadFile fileURL: $fileURL");
