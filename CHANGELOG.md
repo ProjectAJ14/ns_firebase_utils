@@ -1,3 +1,5 @@
+## [0.0.4] - Added firebase_messaging
+
 ## [0.0.3] - Updated dependencies
 
 ## [0.0.2] - Updated Map extentions

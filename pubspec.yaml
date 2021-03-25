@@ -1,6 +1,6 @@
 name: ns_firebase_utils
 description: Set of methods/extentions for firebase that makes using framework in a much easier and clean way also adds additional functionality
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/ajaynonstopio/ns_firebase_utils
 
 environment:
@@ -22,6 +22,7 @@ dependencies:
   firebase_dynamic_links: ^0.7.0
   firebase_remote_config: ^0.6.0
   firebase_performance: ^0.5.0+1
+  firebase_messaging: ^8.0.0-dev.15
   #</editor-fold>
 
   #<editor-fold desc="FIREBASE TEST">
