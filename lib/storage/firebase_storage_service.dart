@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:ns_firebase_utils/utils/logs.dart';
+
+import '../src.dart';
 
 class FirebaseStorageService {
   static Future<String> uploadFile(
@@ -20,13 +21,13 @@ class FirebaseStorageService {
     );
 
     TaskSnapshot snapshot = await uploadTask.whenComplete(() {
-      nsfLogs("uploadTask whenComplete");
+      appLogsNS("uploadTask whenComplete");
     });
 
-    nsfLogs("uploadTask whenComplete[${snapshot.state.index}]");
+    appLogsNS("uploadTask whenComplete[${snapshot.state.index}]");
 
     String fileURL = await storageReference.getDownloadURL();
-    nsfLogs("uploadFile fileURL: $fileURL");
+    appLogsNS("uploadFile fileURL: $fileURL");
     return fileURL;
   }
 }

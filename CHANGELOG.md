@@ -1,3 +1,5 @@
+## [1.0.0-nullsafety]  - Migrating to null safety
+
 ## [0.0.4] - Added firebase_messaging
 
 ## [0.0.3] - Updated dependencies

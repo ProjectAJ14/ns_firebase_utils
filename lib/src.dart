@@ -1,22 +1,39 @@
 library ns_firebase_utils;
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:ns_firebase_utils/analytics/analytics_service.dart';
-import 'package:ns_firebase_utils/utils/logs.dart';
+
 import 'package:ns_firebase_utils/utils/nsf_strings.dart';
 
 final AppAnalytics analytics = new AppAnalytics();
 
+typedef LogCallBack = void Function(
+  Object object, [
+  Object detail,
+]);
+
+typedef ErrorLogCallBack = void Function(
+  Object object, [
+  dynamic error,
+  StackTrace stackTrace,
+]);
+
+void _appLogs(
+  dynamic object, [
+  Object detail = "",
+]) {}
+
+void _errorLogs(Object message, [dynamic error, StackTrace? stackTrace]) {}
+
+LogCallBack appLogsNS = _appLogs;
+ErrorLogCallBack errorLogsNS = _errorLogs;
+
 class NSFirebase {
   bool _isInitialized = false;
-  bool _printLogs = false;
   String _buildNumber = NSFStrings.empty;
   String _version = NSFStrings.empty;
 
   bool get isInitialized => _isInitialized;
-
-  bool get printLogs => _printLogs;
 
   String get buildNumber => _buildNumber;
 
@@ -25,12 +42,19 @@ class NSFirebase {
   static NSFirebase instance = NSFirebase();
 
   Future<Null> init({
-    @required bool printLogs,
-    @required String buildNumber,
-    @required String version,
+    required bool printLogs,
+    required String buildNumber,
+    required String version,
+    LogCallBack? appLogsFunction,
+    ErrorLogCallBack? errorLogsFunction,
   }) async {
+    if (appLogsFunction != null) {
+      appLogsNS = appLogsFunction;
+    }
+    if (errorLogsFunction != null) {
+      errorLogsNS = errorLogsFunction;
+    }
     _isInitialized = true;
-    _printLogs = printLogs;
     _buildNumber = buildNumber;
     _version = version;
     await initializeDefault();
@@ -38,7 +62,6 @@ class NSFirebase {
 
   Future<void> initializeDefault() async {
     FirebaseApp app = await Firebase.initializeApp();
-    assert(app != null);
-    nsfLogs('Initialized default app $app');
+    appLogsNS('Initialized default app $app');
   }
 }

@@ -9,7 +9,7 @@ final mockFirestoreInstance = MockFirestoreInstance();
 
 class FirebaseApi {
   final String path;
-  CollectionReference ref;
+  late CollectionReference ref;
   final bool isTest;
 
   FirebaseApi(this.path, {this.isTest: false}) {
@@ -39,7 +39,7 @@ class FirebaseApi {
     return ref.doc(id).delete();
   }
 
-  Future<void> addDocument({String id, Map<String, dynamic> data}) {
+  Future<void> addDocument({String? id, required Map<String, dynamic> data}) {
     return ref.doc(id).set(data);
   }
 
@@ -50,7 +50,8 @@ class FirebaseApi {
       return FirebaseFirestore.instance.batch();
   }
 
-  Future<void> updateDocument({String id, Map<String, dynamic> data}) {
+  Future<void> updateDocument(
+      {String? id, required Map<String, dynamic> data}) {
     return ref.doc(id).set(
           data,
           mergeOption,

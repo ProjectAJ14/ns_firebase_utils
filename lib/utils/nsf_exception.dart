@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-
 class NSFException implements Exception {
   NSFException({
-    @required this.code,
+    required this.code,
     this.message,
     this.details,
-  }) : assert(code != null);
+  });
 
   factory NSFException.defaultException(dynamic details) => NSFException(
         code: 'something_went_wrong',
@@ -17,7 +15,7 @@ class NSFException implements Exception {
   final String code;
 
   /// A human-readable error message, possibly null.
-  final String message;
+  final String? message;
 
   /// Error details, possibly null.
   final dynamic details;

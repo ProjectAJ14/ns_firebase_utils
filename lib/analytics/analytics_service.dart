@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/material.dart';
-import 'package:ns_firebase_utils/utils/logs.dart';
+
 import 'package:ns_firebase_utils/utils/nsf_exception.dart';
 import 'package:ns_firebase_utils/utils/nsf_keys.dart';
 import 'package:ns_firebase_utils/utils/nsf_strings.dart';
@@ -17,10 +16,10 @@ class AppAnalytics implements FirebaseAnalytics {
   Map<String, dynamic> _userInfo = Map();
 
   Future<Null> setUser({
-    @required String id,
-    @required String email,
+    required String id,
+    required String email,
   }) async {
-    nsfLogs("setUser:$id");
+    appLogsNS("setUser:$id");
     await setUserId(id);
     _userInfo = {
       NSFKeys.id: id,
@@ -29,9 +28,9 @@ class AppAnalytics implements FirebaseAnalytics {
   }
 
   Future<Null> log(
-      {@required String eventName,
-      String category,
-      Map<String, dynamic> parameters}) async {
+      {required String eventName,
+      String? category,
+      Map<String, dynamic>? parameters}) async {
     if (parameters == null) {
       parameters = <String, dynamic>{};
     }
@@ -53,13 +52,13 @@ class AppAnalytics implements FirebaseAnalytics {
 
   @override
   Future<Null> logEvent({
-    String name,
-    String category,
-    Map<String, dynamic> parameters,
+    String? name,
+    String? category,
+    Map<String, dynamic>? parameters,
   }) async {
     name = name?.replaceAll(new RegExp(r' '), '_'); // name cannot use '-'
     category = category?.replaceAll(new RegExp(r' '), '_');
-    final eventName = category == null ? name : "${name}_$category";
+    final eventName = category == null ? name! : "${name}_$category";
     // TODO: needs to get this from the config or app version or A/B testing version
     if (parameters == null) {
       parameters = <String, dynamic>{};
@@ -82,24 +81,24 @@ class AppAnalytics implements FirebaseAnalytics {
         newParameters.putIfAbsent(key, () => value);
       }
     });
-    nsfLogs("eventName:$eventName", tag: "Analytics");
+    appLogsNS("eventName:$eventName");
     // TODO: need to avoid parameters contains List value. This causes exception
     await _firebaseAnalytics.logEvent(
         name: eventName, parameters: newParameters);
   }
 
   @override
-  Future<Null> logJoinGroup({String groupId}) async {
+  Future<Null> logJoinGroup({required String groupId}) async {
     await _firebaseAnalytics.logJoinGroup(groupId: groupId);
   }
 
   @override
-  Future<Null> logLogin({String loginMethod}) async {
+  Future<Null> logLogin({String? loginMethod}) async {
     await _firebaseAnalytics.logLogin(loginMethod: loginMethod);
   }
 
   @override
-  Future<Null> logSignUp({String signUpMethod}) async {
+  Future<Null> logSignUp({required String signUpMethod}) async {
     await _firebaseAnalytics.logSignUp(signUpMethod: signUpMethod);
   }
 
@@ -115,7 +114,7 @@ class AppAnalytics implements FirebaseAnalytics {
 
   @override
   Future<void> setCurrentScreen({
-    @required String screenName,
+    required String? screenName,
     String screenClassOverride: 'Flutter',
   }) async {
     await _firebaseAnalytics.setCurrentScreen(
@@ -125,12 +124,12 @@ class AppAnalytics implements FirebaseAnalytics {
   }
 
   @override
-  Future<Null> setUserId(String id) async {
+  Future<Null> setUserId(String? id) async {
     await _firebaseAnalytics.setUserId(id);
   }
 
   @override
-  Future<Null> setUserProperty({String name, String value}) async {
+  Future<Null> setUserProperty({required String name, String? value}) async {
     await _firebaseAnalytics.setUserProperty(name: name, value: value);
   }
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ns_firebase_utils/constants.dart';
-import 'package:ns_firebase_utils/utils/logs.dart';
+
+import '../src.dart';
 
 /// extension methods for Map
 ///
@@ -9,15 +10,11 @@ extension MapFirestoreExtensions on Map {
   ///
   /// If value is NULL or not [Timestamp] type return default NULL
   ///.
-  Timestamp getTimestamp(String key) {
-    Map data = this;
-    if (data == null) {
-      data = defaultMap;
+  Timestamp? getTimestamp(String key) {
+    if (containsKey(key) && this[key] is Timestamp) {
+      return this[key];
     }
-    if (data.containsKey(key) && data[key] is Timestamp) {
-      return data[key];
-    }
-    nsfLogs("Map.getTimeStamp[$key] has incorrect data : ${data[key]}");
+    errorLogsNS("Map.getTimeStamp[$key] has incorrect data : ${this[key]}");
     return null;
   }
 
@@ -26,15 +23,11 @@ extension MapFirestoreExtensions on Map {
   /// If value is NULL or not [GeoPoint] type return default GeoPoint
   ///.
 
-  GeoPoint getGeoPoint(String key) {
-    Map data = this;
-    if (data == null) {
-      data = {};
+  GeoPoint? getGeoPoint(String key) {
+    if (containsKey(key) && this[key] is GeoPoint) {
+      return this[key];
     }
-    if (data.containsKey(key) && data[key] is GeoPoint) {
-      return data[key];
-    }
-    nsfLogs("Map.getGeoPoint[$key] has incorrect data : ${data[key]}");
+    errorLogsNS("Map.getGeoPoint[$key] has incorrect data : ${this[key]}");
     return defaultGeoPoint;
   }
 }
