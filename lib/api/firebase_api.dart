@@ -31,7 +31,7 @@ class FirebaseApi {
     return ref.doc(id).get();
   }
 
-  DocumentReference getDocumentRef(String id) {
+  DocumentReference getDocumentRef({String? id}) {
     return ref.doc(id);
   }
 
@@ -39,8 +39,11 @@ class FirebaseApi {
     return ref.doc(id).delete();
   }
 
-  Future<void> addDocument({String? id, required Map<String, dynamic> data}) {
-    return ref.doc(id).set(data);
+  Future<DocumentReference> addDocument(
+      {String? id, required Map<String, dynamic> data}) async {
+    final docRef = ref.doc(id);
+    await docRef.set(data);
+    return docRef;
   }
 
   WriteBatch batch() {
