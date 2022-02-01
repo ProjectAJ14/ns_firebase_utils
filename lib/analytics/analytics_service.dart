@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
-
 import 'package:ns_firebase_utils/utils/nsf_exception.dart';
 import 'package:ns_firebase_utils/utils/nsf_keys.dart';
 import 'package:ns_firebase_utils/utils/nsf_strings.dart';
@@ -11,23 +10,29 @@ import '../src.dart';
 class AppAnalytics implements FirebaseAnalytics {
   final FirebaseAnalytics _firebaseAnalytics;
 
-  AppAnalytics() : _firebaseAnalytics = new FirebaseAnalytics();
+  AppAnalytics() : _firebaseAnalytics = FirebaseAnalytics.instance;
 
   Map<String, dynamic> _userInfo = Map();
 
-  Future<Null> setUser({
+  Future<void> setUser({
     required String id,
     required String email,
   }) async {
     appLogsNS("setUser:$id");
-    await setUserId(id);
+    await setUserId(
+      id: id,
+    );
+    await setUserProperty(
+      name: 'email',
+      value: email,
+    );
     _userInfo = {
       NSFKeys.id: id,
       NSFKeys.email: email,
     };
   }
 
-  Future<Null> log(
+  Future<void> log(
       {required String eventName,
       String? category,
       Map<String, dynamic>? parameters}) async {
@@ -41,20 +46,23 @@ class AppAnalytics implements FirebaseAnalytics {
   }
 
   @override
-  Future<Null> logAppOpen() async {
+  Future<void> logAppOpen({AnalyticsCallOptions? callOptions}) {
     if (!NSFirebase.instance.isInitialized)
       throw NSFException(
         code: 'NSFirebase_not_initialized',
         message: 'Please Initialized NSFirebase',
       );
-    await _firebaseAnalytics.logAppOpen();
+    return _firebaseAnalytics.logAppOpen(
+      callOptions: callOptions,
+    );
   }
 
   @override
-  Future<Null> logEvent({
+  Future<void> logEvent({
     String? name,
     String? category,
     Map<String, dynamic>? parameters,
+    AnalyticsCallOptions? callOptions,
   }) async {
     name = name?.replaceAll(new RegExp(r' '), '_'); // name cannot use '-'
     category = category?.replaceAll(new RegExp(r' '), '_');
@@ -84,31 +92,43 @@ class AppAnalytics implements FirebaseAnalytics {
     appLogsNS("eventName:$eventName");
     // TODO: need to avoid parameters contains List value. This causes exception
     await _firebaseAnalytics.logEvent(
-        name: eventName, parameters: newParameters);
+      name: eventName,
+      parameters: newParameters,
+      callOptions: callOptions,
+    );
   }
 
   @override
-  Future<Null> logJoinGroup({required String groupId}) async {
-    await _firebaseAnalytics.logJoinGroup(groupId: groupId);
+  Future<void> logJoinGroup({
+    required String groupId,
+    AnalyticsCallOptions? callOptions,
+  }) async {
+    await _firebaseAnalytics.logJoinGroup(
+      groupId: groupId,
+      callOptions: callOptions,
+    );
   }
 
   @override
-  Future<Null> logLogin({String? loginMethod}) async {
+  Future<void> logLogin({
+    String? loginMethod,
+    AnalyticsCallOptions? callOptions,
+  }) async {
     await _firebaseAnalytics.logLogin(loginMethod: loginMethod);
   }
 
   @override
-  Future<Null> logSignUp({required String signUpMethod}) async {
+  Future<void> logSignUp({required String signUpMethod}) async {
     await _firebaseAnalytics.logSignUp(signUpMethod: signUpMethod);
   }
 
   @override
-  Future<Null> logTutorialBegin() async {
+  Future<void> logTutorialBegin() async {
     await _firebaseAnalytics.logTutorialBegin();
   }
 
   @override
-  Future<Null> logTutorialComplete() async {
+  Future<void> logTutorialComplete() async {
     await _firebaseAnalytics.logTutorialComplete();
   }
 
@@ -116,21 +136,37 @@ class AppAnalytics implements FirebaseAnalytics {
   Future<void> setCurrentScreen({
     required String? screenName,
     String screenClassOverride: 'Flutter',
+    AnalyticsCallOptions? callOptions,
   }) async {
     await _firebaseAnalytics.setCurrentScreen(
       screenName: screenName,
       screenClassOverride: screenClassOverride,
+      callOptions: callOptions,
     );
   }
 
   @override
-  Future<Null> setUserId(String? id) async {
-    await _firebaseAnalytics.setUserId(id);
+  Future<void> setUserId({
+    String? id,
+    AnalyticsCallOptions? callOptions,
+  }) async {
+    await _firebaseAnalytics.setUserId(
+      id: id,
+      callOptions: callOptions,
+    );
   }
 
   @override
-  Future<Null> setUserProperty({required String name, String? value}) async {
-    await _firebaseAnalytics.setUserProperty(name: name, value: value);
+  Future<void> setUserProperty({
+    required String name,
+    String? value,
+    AnalyticsCallOptions? callOptions,
+  }) async {
+    await _firebaseAnalytics.setUserProperty(
+      name: name,
+      value: value,
+      callOptions: callOptions,
+    );
   }
 
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
