@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:ns_firebase_utils/utils/nsf_exception.dart';
 import 'package:ns_firebase_utils/utils/nsf_keys.dart';
@@ -66,7 +67,10 @@ class AppAnalytics implements FirebaseAnalytics {
   }) async {
     name = name?.replaceAll(new RegExp(r' '), '_'); // name cannot use '-'
     category = category?.replaceAll(new RegExp(r' '), '_');
-    final eventName = category == null ? name! : "${name}_$category";
+
+    final eventName =
+        category == null || category == '' ? name! : "${name}_$category";
+
     // TODO: needs to get this from the config or app version or A/B testing version
     if (parameters == null) {
       parameters = <String, dynamic>{};
@@ -82,7 +86,7 @@ class AppAnalytics implements FirebaseAnalytics {
       parameters.putIfAbsent(NSFKeys.email, () => _userInfo[NSFKeys.email]);
     }
 
-    Map<String, dynamic> newParameters = new Map<String, dynamic>();
+    Map<String, dynamic> newParameters = Map<String, dynamic>();
     // Remove null
     parameters.forEach((key, dynamic value) {
       if (value != null) {
@@ -90,6 +94,7 @@ class AppAnalytics implements FirebaseAnalytics {
       }
     });
     appLogsNS("eventName:$eventName");
+    newParameters.putIfAbsent('date_time', () => Timestamp.now());
     // TODO: need to avoid parameters contains List value. This causes exception
     await _firebaseAnalytics.logEvent(
       name: eventName,
