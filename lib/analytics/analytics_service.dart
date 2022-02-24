@@ -94,7 +94,8 @@ class AppAnalytics implements FirebaseAnalytics {
       }
     });
     appLogsNS("eventName:$eventName");
-    newParameters.putIfAbsent('date_time', () => Timestamp.now());
+    newParameters.putIfAbsent(
+        'date_time', () => DateTime.now().toIso8601String());
     // TODO: need to avoid parameters contains List value. This causes exception
     await _firebaseAnalytics.logEvent(
       name: eventName,
