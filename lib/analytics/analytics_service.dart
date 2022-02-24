@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:ns_firebase_utils/utils/nsf_exception.dart';
 import 'package:ns_firebase_utils/utils/nsf_keys.dart';
