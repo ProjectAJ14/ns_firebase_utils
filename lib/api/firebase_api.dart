@@ -14,7 +14,11 @@ class FirebaseApi {
   late Query<Map<String, dynamic>> groupQuery;
   final bool isTest;
 
-  FirebaseApi(this.path, this.collection, {this.isTest: false}) {
+  FirebaseApi(
+    this.path, {
+    this.isTest: false,
+    this.collection = '',
+  }) {
     if (isTest) {
       ref = mockFirestoreInstance.collection(path);
       groupQuery = mockFirestoreInstance.collectionGroup(collection);
