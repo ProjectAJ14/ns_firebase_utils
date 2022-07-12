@@ -9,7 +9,7 @@ final mockFirestoreInstance = FakeFirebaseFirestore();
 
 class FirebaseGroupApi {
   final String collection;
-  late Query<Map<String, dynamic>> groupQuery;
+  late Query<Map<String, dynamic>> query;
   final bool isTest;
 
   FirebaseGroupApi(
@@ -17,9 +17,9 @@ class FirebaseGroupApi {
     this.isTest: false,
   }) {
     if (isTest) {
-      groupQuery = mockFirestoreInstance.collectionGroup(collection);
+      query = mockFirestoreInstance.collectionGroup(collection);
     } else {
-      groupQuery = FirebaseFirestore.instance.collectionGroup(collection);
+      query = FirebaseFirestore.instance.collectionGroup(collection);
     }
   }
 }
