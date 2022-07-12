@@ -9,22 +9,17 @@ final mockFirestoreInstance = FakeFirebaseFirestore();
 
 class FirebaseApi {
   final String path;
-  final String collection;
   late CollectionReference ref;
-  late Query<Map<String, dynamic>> groupQuery;
   final bool isTest;
 
   FirebaseApi(
     this.path, {
     this.isTest: false,
-    this.collection = '',
   }) {
     if (isTest) {
       ref = mockFirestoreInstance.collection(path);
-      groupQuery = mockFirestoreInstance.collectionGroup(collection);
     } else {
       ref = FirebaseFirestore.instance.collection(path);
-      groupQuery = FirebaseFirestore.instance.collectionGroup(collection);
     }
   }
 
