@@ -2,7 +2,6 @@ library ns_firebase_utils;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ns_firebase_utils/analytics/analytics_service.dart';
-
 import 'package:ns_firebase_utils/utils/nsf_strings.dart';
 
 final AppAnalytics analytics = new AppAnalytics();
@@ -41,12 +40,13 @@ class NSFirebase {
 
   static NSFirebase instance = NSFirebase();
 
-  Future<Null> init({
+  Future<void> init({
     required bool printLogs,
     required String buildNumber,
     required String version,
     LogCallBack? appLogsFunction,
     ErrorLogCallBack? errorLogsFunction,
+    required FirebaseOptions options,
   }) async {
     if (appLogsFunction != null) {
       appLogsNS = appLogsFunction;
@@ -57,11 +57,13 @@ class NSFirebase {
     _isInitialized = true;
     _buildNumber = buildNumber;
     _version = version;
-    await initializeDefault();
+    await initializeDefault(options);
   }
 
-  Future<void> initializeDefault() async {
-    FirebaseApp app = await Firebase.initializeApp();
+  Future<void> initializeDefault(FirebaseOptions options) async {
+    FirebaseApp app = await Firebase.initializeApp(
+      options: options,
+    );
     appLogsNS('Initialized default app $app');
   }
 }

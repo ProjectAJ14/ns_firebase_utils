@@ -25,19 +25,20 @@ import 'package:ns_firebase_utils/src.dart';
 
  A single plugin to add all firebase dependencies at once.
 
-     firebase_core: ^1.7.0
-     firebase_auth: ^3.1.3
-     firebase_storage: ^10.0.5
-     cloud_firestore: ^1.0.7
-     cloud_functions: ^3.0.4
-     firestore_ui: ^1.20.0
-     firebase_analytics: ^8.3.3
-     firebase_crashlytics: ^2.2.3
-     firebase_dynamic_links: ^2.0.10
-     firebase_remote_config: ^0.11.0+1
-     firebase_performance: ^0.7.1+1
-     firebase_messaging: ^10.0.8
-     cloud_firestore_mocks: ^0.8.4
+```yaml
+    firebase_core: ^1.19.2
+    firebase_auth: ^3.4.2
+    firebase_storage: ^10.3.2
+    cloud_firestore: ^3.3.0
+    cloud_functions: ^3.3.2
+    firestore_ui: ^1.23.0
+    firebase_analytics: ^9.2.0
+    firebase_crashlytics: ^2.8.5
+    firebase_dynamic_links: ^4.3.2
+    firebase_remote_config: ^2.0.12
+    firebase_messaging: ^12.0.0
+    fake_cloud_firestore: ^1.2.4
+```
 
  Along with awesome set of methods to help you develop faster.
 
