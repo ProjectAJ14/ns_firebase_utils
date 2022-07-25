@@ -21,7 +21,6 @@ dependencies:
   firebase_dynamic_links: ^4.3.2
   firebase_remote_config: ^2.0.12
   firebase_messaging: ^12.0.0
-  fake_cloud_firestore: ^1.2.4
 
 
 dev_dependencies:
