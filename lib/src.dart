@@ -2,7 +2,6 @@ library ns_firebase_utils;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ns_firebase_utils/analytics/analytics_service.dart';
-import 'package:ns_firebase_utils/utils/nsf_strings.dart';
 
 final AppAnalytics analytics = new AppAnalytics();
 
@@ -19,7 +18,7 @@ typedef ErrorLogCallBack = void Function(
 
 void _appLogs(
   dynamic object, [
-  Object detail = "",
+  Object detail = '',
 ]) {}
 
 void _errorLogs(Object message, [dynamic error, StackTrace? stackTrace]) {}
@@ -29,8 +28,8 @@ ErrorLogCallBack errorLogsNS = _errorLogs;
 
 class NSFirebase {
   bool _isInitialized = false;
-  String _buildNumber = NSFStrings.empty;
-  String _version = NSFStrings.empty;
+  String _buildNumber = '';
+  String _version = '';
 
   bool get isInitialized => _isInitialized;
 
