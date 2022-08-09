@@ -10,18 +10,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_core: ^1.19.2
-  firebase_auth: ^3.4.2
-  firebase_storage: ^10.3.2
-  cloud_firestore: ^3.3.0
-  cloud_functions: ^3.3.2
-  firestore_ui: ^1.23.0
-  firebase_analytics: ^9.2.0
-  firebase_crashlytics: ^2.8.5
-  firebase_dynamic_links: ^4.3.2
-  firebase_remote_config: ^2.0.12
-  firebase_messaging: ^12.0.0
-
+  firebase_core: ^1.20.0
+  firebase_auth: ^3.6.2
+  firebase_storage: ^10.3.4
+  cloud_firestore: ^3.4.3
+  cloud_functions: ^3.3.3
+  firestore_ui: ^1.24.0
+  firebase_analytics: ^9.3.0
+  firebase_crashlytics: ^2.8.6
+  firebase_dynamic_links: ^4.3.3
+  firebase_remote_config: ^2.0.13
+  firebase_messaging: ^12.0.1
 
 dev_dependencies:
   flutter_test:
