@@ -419,6 +419,7 @@ class FirestoreListView<Document> extends FirestoreQueryBuilder<Document> {
     Key? key,
     required Query<Document> query,
     required FirestoreItemBuilder<Document> itemBuilder,
+    Widget? emptyBuilder,
     int pageSize = 10,
     FirestoreLoadingBuilder? loadingBuilder,
     FirestoreErrorBuilder? errorBuilder,
@@ -457,6 +458,16 @@ class FirestoreListView<Document> extends FirestoreQueryBuilder<Document> {
                 snapshot.error!,
                 snapshot.stackTrace!,
               );
+            }
+
+            if (snapshot.docs.isEmpty) {
+              return emptyBuilder ??
+                  const Center(
+                    child: Text(
+                      'No Data',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  );
             }
 
             return ListView.builder(
