@@ -8,14 +8,17 @@ import '../src.dart';
 extension MapFirestoreExtensions on Map {
   /// Reads a [key] value of [Timestamp] type from [Map].
   ///
-  /// If value is NULL or not [Timestamp] type return default NULL
+  /// If value is NULL or not [Timestamp] type return defaultValue
   ///.
-  Timestamp? getTimestamp(String key) {
+  Timestamp? getTimestamp(
+    String key, {
+    Timestamp? defaultValue,
+  }) {
     if (containsKey(key) && this[key] is Timestamp) {
       return this[key];
     }
     errorLogsNS("Map.getTimeStamp[$key] has incorrect data : ${this[key]}");
-    return null;
+    return defaultValue;
   }
 
   /// Reads a [key] value of [GeoPoint] type from [Map].
