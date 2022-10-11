@@ -45,7 +45,7 @@ class NSFirebase {
     required String version,
     LogCallBack? appLogsFunction,
     ErrorLogCallBack? errorLogsFunction,
-    required FirebaseOptions options,
+    FirebaseOptions? options,
     String? name,
   }) async {
     if (appLogsFunction != null) {
@@ -58,13 +58,13 @@ class NSFirebase {
     _buildNumber = buildNumber;
     _version = version;
     await initializeDefault(
-      options,
+      options: options,
       name: name,
     );
   }
 
-  Future<void> initializeDefault(
-    FirebaseOptions options, {
+  Future<void> initializeDefault({
+    FirebaseOptions? options,
     String? name,
   }) async {
     FirebaseApp app = await Firebase.initializeApp(
