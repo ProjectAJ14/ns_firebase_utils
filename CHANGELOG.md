@@ -1,3 +1,5 @@
+## [1.2.0]  - Updated plugins
+
 ## [1.1.0]  - Updated plugins
 
 ## [1.0.0-nullsafety]  - Migrating to null safety
