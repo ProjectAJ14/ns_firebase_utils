@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:ns_firebase_utils/utils/nsf_exception.dart';
-import 'package:ns_firebase_utils/utils/nsf_keys.dart';
-import 'package:ns_firebase_utils/utils/nsf_strings.dart';
+import 'package:ns_firebase_utils/utils/const_keys.dart';
+import 'package:ns_firebase_utils/utils/custom_exception.dart';
 
 import '../src.dart';
 
@@ -27,20 +26,21 @@ class AppAnalytics implements FirebaseAnalytics {
       value: email,
     );
     _userInfo = {
-      NSFKeys.id: id,
-      NSFKeys.email: email,
+      ConstKeys.id: id,
+      ConstKeys.email: email,
     };
   }
 
-  Future<void> log(
-      {required String eventName,
-      String? category,
-      Map<String, dynamic>? parameters}) async {
+  Future<void> log({
+    required String eventName,
+    String? category,
+    Map<String, dynamic>? parameters,
+  }) async {
     if (parameters == null) {
       parameters = <String, dynamic>{};
     }
     if (category == null) {
-      category = NSFStrings.empty;
+      category = '';
     }
     await logEvent(name: eventName, category: category, parameters: parameters);
   }
@@ -48,8 +48,8 @@ class AppAnalytics implements FirebaseAnalytics {
   @override
   Future<void> logAppOpen({AnalyticsCallOptions? callOptions}) {
     if (!NSFirebase.instance.isInitialized)
-      throw NSFException(
-        code: 'NSFirebase_not_initialized',
+      throw CustomException(
+        code: 'not_initialized',
         message: 'Please Initialized NSFirebase',
       );
     return _firebaseAnalytics.logAppOpen(
@@ -78,11 +78,11 @@ class AppAnalytics implements FirebaseAnalytics {
     String buildStr = NSFirebase.instance.buildNumber;
     String versionStr = NSFirebase.instance.version;
     parameters.putIfAbsent(
-        NSFKeys.version, () => versionStr + NSFKeys.dash + buildStr);
+        ConstKeys.version, () => versionStr + ConstKeys.dash + buildStr);
 
     if (_userInfo.isNotEmpty) {
-      parameters.putIfAbsent(NSFKeys.id, () => _userInfo[NSFKeys.id]);
-      parameters.putIfAbsent(NSFKeys.email, () => _userInfo[NSFKeys.email]);
+      parameters.putIfAbsent(ConstKeys.id, () => _userInfo[ConstKeys.id]);
+      parameters.putIfAbsent(ConstKeys.email, () => _userInfo[ConstKeys.email]);
     }
 
     Map<String, dynamic> newParameters = Map<String, dynamic>();

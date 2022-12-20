@@ -1,15 +1,9 @@
-class NSFException implements Exception {
-  NSFException({
+class CustomException implements Exception {
+  CustomException({
     required this.code,
     this.message,
     this.details,
   });
-
-  factory NSFException.defaultException(dynamic details) => NSFException(
-        code: 'something_went_wrong',
-        message: 'Something went wrong',
-        details: details,
-      );
 
   /// An error code.
   final String code;
