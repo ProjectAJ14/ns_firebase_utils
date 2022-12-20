@@ -47,6 +47,7 @@ class NSFirebase {
     LogCallBack? appLogsFunction,
     ErrorLogCallBack? errorLogsFunction,
     required FirebaseOptions options,
+    String? name,
   }) async {
     if (appLogsFunction != null) {
       appLogsNS = appLogsFunction;
@@ -57,12 +58,13 @@ class NSFirebase {
     _isInitialized = true;
     _buildNumber = buildNumber;
     _version = version;
-    await initializeDefault(options);
+    await initializeDefault(options, name);
   }
 
-  Future<void> initializeDefault(FirebaseOptions options) async {
+  Future<void> initializeDefault(FirebaseOptions options, String? name) async {
     FirebaseApp app = await Firebase.initializeApp(
       options: options,
+      name: name,
     );
     appLogsNS('Initialized default app $app');
   }
