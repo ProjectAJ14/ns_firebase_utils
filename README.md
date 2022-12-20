@@ -45,6 +45,15 @@ import 'package:ns_firebase_utils/src.dart';
 
 ## Contributing
 
+<br>
+<div align="center" >
+  <p>Thanks to all contributors of this package</p>
+  <a href="https://github.com/ProjectAJ14/ns_firebase_utils/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=ProjectAJ14/ns_firebase_utils" />
+  </a>
+</div>
+<br>
+
 There are couple of ways in which you can contribute.
 - Propose any feature, enhancement
 - Report a bug
