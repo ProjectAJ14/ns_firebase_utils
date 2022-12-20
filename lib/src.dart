@@ -3,6 +3,7 @@ library ns_firebase_utils;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ns_firebase_utils/analytics/analytics_service.dart';
 
+/// AppAnalytics service
 final AppAnalytics analytics = new AppAnalytics();
 
 typedef LogCallBack = void Function(
@@ -10,6 +11,8 @@ typedef LogCallBack = void Function(
   Object detail,
 ]);
 
+/// Error Log callback
+///
 typedef ErrorLogCallBack = void Function(
   Object object, [
   dynamic error,
@@ -26,6 +29,9 @@ void _errorLogs(Object message, [dynamic error, StackTrace? stackTrace]) {}
 LogCallBack appLogsNS = _appLogs;
 ErrorLogCallBack errorLogsNS = _errorLogs;
 
+/// NSFirebase class
+/// This class is used to initialize firebase
+///
 class NSFirebase {
   bool _isInitialized = false;
   String _buildNumber = '';
@@ -65,6 +71,7 @@ class NSFirebase {
   }
 }
 
+/// Initialize default firebase app
 Future<void> initializeDefault({
   FirebaseOptions? options,
   String? name,

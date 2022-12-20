@@ -1,3 +1,5 @@
+## [1.1.1+1]  - Updated README.md 
+
 ## [1.1.1]  - Updated plugins 
 - FirebaseOptions are optional
 

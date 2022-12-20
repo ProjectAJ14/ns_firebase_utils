@@ -2,6 +2,15 @@
 
 🦾 Set of methods/extensions for firebase that makes using framework in a much easier and clean way also adds additional functionality.
 
+###Contributors
+<br>
+<div align="center" >
+  <a href="https://github.com/ProjectAJ14/ns_firebase_utils/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=ProjectAJ14/ns_firebase_utils" />
+  </a>
+</div>
+<br>
+
 ## Let's get started
 
 1. Go to `pubspec.yaml` 
@@ -26,18 +35,17 @@ import 'package:ns_firebase_utils/src.dart';
  A single plugin to add all firebase dependencies at once.
 
 ```yaml
-    firebase_core: ^1.19.2
-    firebase_auth: ^3.4.2
-    firebase_storage: ^10.3.2
-    cloud_firestore: ^3.3.0
-    cloud_functions: ^3.3.2
-    firestore_ui: ^1.23.0
-    firebase_analytics: ^9.2.0
-    firebase_crashlytics: ^2.8.5
-    firebase_dynamic_links: ^4.3.2
-    firebase_remote_config: ^2.0.12
-    firebase_messaging: ^12.0.0
-    fake_cloud_firestore: ^1.2.4
+  cloud_firestore: ^4.2.0
+  cloud_functions: ^4.0.6
+  fake_cloud_firestore: ^2.1.0
+  firebase_analytics: ^10.0.7
+  firebase_auth: ^4.2.1
+  firebase_core: ^2.4.0
+  firebase_crashlytics: ^3.0.7
+  firebase_dynamic_links: ^5.0.9
+  firebase_messaging: ^14.1.4
+  firebase_remote_config: ^3.0.7
+  firebase_storage: ^11.0.8
 ```
 
  Along with awesome set of methods to help you develop faster.
@@ -45,14 +53,7 @@ import 'package:ns_firebase_utils/src.dart';
 
 ## Contributing
 
-<br>
-<div align="center" >
-  <p>Thanks to all contributors of this package</p>
-  <a href="https://github.com/ProjectAJ14/ns_firebase_utils/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=ProjectAJ14/ns_firebase_utils" />
-  </a>
-</div>
-<br>
+
 
 There are couple of ways in which you can contribute.
 - Propose any feature, enhancement
