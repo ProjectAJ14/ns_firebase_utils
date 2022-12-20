@@ -1,6 +1,6 @@
 name: ns_firebase_utils
 description: Set of methods/extentions for firebase that makes using framework in a much easier and clean way also adds additional functionality
-version: 1.2.0
+version: 1.1.1
 homepage: https://github.com/ajaynonstopio/ns_firebase_utils
 
 environment:
@@ -10,17 +10,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_core: ^1.24.0
-  firebase_auth: ^3.11.2
-  firebase_storage: ^10.3.11
-  cloud_firestore: ^3.5.1
-  cloud_functions: ^3.3.9
-  firestore_ui: ^1.24.0
-  firebase_analytics: ^9.3.8
-  firebase_crashlytics: ^2.8.13
-  firebase_dynamic_links: ^4.3.10
-  firebase_remote_config: ^2.0.20
-  firebase_messaging: ^13.1.0
+  cloud_firestore: ^4.2.0
+  cloud_functions: ^4.0.6
+  fake_cloud_firestore: ^2.1.0
+  firebase_analytics: ^10.0.7
+  firebase_auth: ^4.2.1
+  firebase_core: ^2.4.0
+  firebase_crashlytics: ^3.0.7
+  firebase_dynamic_links: ^5.0.9
+  firebase_messaging: ^14.1.4
+  firebase_remote_config: ^3.0.7
+  firebase_storage: ^11.0.8
 
 dev_dependencies:
   flutter_test:

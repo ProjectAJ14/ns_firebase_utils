@@ -1,4 +1,4 @@
-## [1.2.0]  - Updated plugins
+## [1.1.1]  - Updated plugins 
 - FirebaseOptions are optional
 
 ## [1.1.0]  - Updated plugins

@@ -57,20 +57,21 @@ class NSFirebase {
     _isInitialized = true;
     _buildNumber = buildNumber;
     _version = version;
+
     await initializeDefault(
       options: options,
       name: name,
     );
   }
+}
 
-  Future<void> initializeDefault({
-    FirebaseOptions? options,
-    String? name,
-  }) async {
-    FirebaseApp app = await Firebase.initializeApp(
-      options: options,
-      name: name,
-    );
-    appLogsNS('Initialized default app $app');
-  }
+Future<void> initializeDefault({
+  FirebaseOptions? options,
+  String? name,
+}) async {
+  FirebaseApp app = await Firebase.initializeApp(
+    options: options,
+    name: name,
+  );
+  appLogsNS('Initialized default app $app');
 }
