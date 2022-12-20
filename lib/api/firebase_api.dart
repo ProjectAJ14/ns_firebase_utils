@@ -1,26 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 
 SetOptions mergeOption = SetOptions(
   merge: true,
 );
 
-final mockFirestoreInstance = FakeFirebaseFirestore();
-
 class FirebaseApi {
   final String path;
   late CollectionReference ref;
-  final bool isTest;
 
-  FirebaseApi(
-    this.path, {
-    this.isTest: false,
-  }) {
-    if (isTest) {
-      ref = mockFirestoreInstance.collection(path);
-    } else {
-      ref = FirebaseFirestore.instance.collection(path);
-    }
+  FirebaseApi(this.path) {
+    ref = FirebaseFirestore.instance.collection(path);
   }
 
   Future<QuerySnapshot> getDataCollection() {
@@ -51,10 +40,7 @@ class FirebaseApi {
   }
 
   WriteBatch batch() {
-    if (isTest)
-      return mockFirestoreInstance.batch();
-    else
-      return FirebaseFirestore.instance.batch();
+    return FirebaseFirestore.instance.batch();
   }
 
   Future<void> updateDocument(
