@@ -21,7 +21,6 @@ dependencies:
   firebase_messaging: ^14.6.7
   firebase_remote_config: ^4.2.5
   firebase_storage: ^11.2.6
-  cloud_firestore_platform_interface: ^5.16.0
 
 dev_dependencies:
   flutter_test:
