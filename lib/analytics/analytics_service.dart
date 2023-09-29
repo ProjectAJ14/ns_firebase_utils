@@ -140,7 +140,7 @@ class AppAnalytics implements FirebaseAnalytics {
   @override
   Future<void> setCurrentScreen({
     required String? screenName,
-    String screenClassOverride: 'Flutter',
+    String screenClassOverride = 'Flutter',
     AnalyticsCallOptions? callOptions,
   }) async {
     await _firebaseAnalytics.setCurrentScreen(
