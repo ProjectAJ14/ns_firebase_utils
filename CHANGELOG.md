@@ -1,3 +1,5 @@
+## [1.1.4]  - Updated plugins & README.md
+
 ## [1.1.3]  - Updated plugins & README.md
 
 ## [1.1.2]  - Update plugins
