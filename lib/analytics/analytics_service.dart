@@ -6,54 +6,65 @@ import 'package:ns_firebase_utils/utils/custom_exception.dart';
 
 import '../src.dart';
 
+/// A wrapper class for Firebase Analytics that provides enhanced logging and user tracking
 class AppAnalytics implements FirebaseAnalytics {
+  /// The underlying Firebase Analytics instance
   final FirebaseAnalytics _firebaseAnalytics;
 
+  /// Stores current user information
+  final Map<String, dynamic> _userInfo = {};
+
+  /// Constructor initializes the Firebase Analytics instance
   AppAnalytics() : _firebaseAnalytics = FirebaseAnalytics.instance;
 
-  Map<String, dynamic> _userInfo = Map();
-
+  /// Sets user information for analytics tracking
   Future<void> setUser({
     required String id,
     required String email,
-  }) async {
+  }) {
     appLogsNS("setUser:$id");
-    await setUserId(
-      id: id,
-    );
-    await setUserProperty(
-      name: 'email',
-      value: email,
-    );
-    _userInfo = {
-      ConstKeys.id: id,
-      ConstKeys.email: email,
-    };
+
+    return Future.wait([
+      setUserId(id: id),
+      setUserProperty(name: 'email', value: email),
+    ]).then((_) {
+      _userInfo.addAll({
+        ConstKeys.id: id,
+        ConstKeys.email: email,
+      });
+    });
   }
 
+  /// Logs an event with optional category and parameters
   Future<void> log({
     required String eventName,
     String? category,
     Map<String, dynamic>? parameters,
-  }) async {
-    if (parameters == null) {
-      parameters = <String, dynamic>{};
-    }
-    if (category == null) {
-      category = '';
-    }
-    await logEvent(name: eventName, category: category, parameters: parameters);
+  }) {
+    parameters ??= <String, dynamic>{};
+    category ??= '';
+
+    return logEvent(
+        name: eventName,
+        category: category,
+        parameters: parameters
+    );
   }
 
   @override
-  Future<void> logAppOpen({AnalyticsCallOptions? callOptions}) {
-    if (!NSFirebase.instance.isInitialized)
+  Future<void> logAppOpen({
+    AnalyticsCallOptions? callOptions,
+    Map<String, Object>? parameters,
+  }) {
+    if (!NSFirebase.instance.isInitialized) {
       throw CustomException(
         code: 'not_initialized',
-        message: 'Please Initialized NSFirebase',
+        message: 'Please Initialize NSFirebase',
       );
+    }
     return _firebaseAnalytics.logAppOpen(
       callOptions: callOptions,
+      parameters: parameters,
     );
   }
 
@@ -63,40 +74,49 @@ class AppAnalytics implements FirebaseAnalytics {
     String? category,
     Map<String, dynamic>? parameters,
     AnalyticsCallOptions? callOptions,
-  }) async {
-    name = name?.replaceAll(new RegExp(r' '), '_'); // name cannot use '-'
-    category = category?.replaceAll(new RegExp(r' '), '_');
+  }) {
+    // Sanitize event name and category by replacing spaces with underscores
+    name = name?.replaceAll(RegExp(r' '), '_');
+    category = category?.replaceAll(RegExp(r' '), '_');
 
-    final eventName =
-        category == null || category == '' ? name! : "${name}_$category";
+    // Combine name and category for full event name
+    final eventName = category == null || category.isEmpty
+        ? name!
+        : "${name}_$category";
 
-    // TODO: needs to get this from the config or app version or A/B testing version
-    if (parameters == null) {
-      parameters = <String, dynamic>{};
-    }
+    // Initialize parameters if null
+    parameters ??= <String, dynamic>{};
 
-    String buildStr = NSFirebase.instance.buildNumber;
-    String versionStr = NSFirebase.instance.version;
+    // Add version and build information
+    final buildStr = NSFirebase.instance.buildNumber;
+    final versionStr = NSFirebase.instance.version;
     parameters.putIfAbsent(
-        ConstKeys.version, () => versionStr + ConstKeys.dash + buildStr);
+        ConstKeys.version,
+            () => '$versionStr${ConstKeys.dash}$buildStr'
+    );
 
+    // Add user information if available
     if (_userInfo.isNotEmpty) {
       parameters.putIfAbsent(ConstKeys.id, () => _userInfo[ConstKeys.id]);
       parameters.putIfAbsent(ConstKeys.email, () => _userInfo[ConstKeys.email]);
     }
 
-    Map<String, dynamic> newParameters = Map<String, dynamic>();
-    // Remove null
+    // Create a new map to filter out null values
+    final newParameters = <String, Object>{};
     parameters.forEach((key, dynamic value) {
       if (value != null) {
-        newParameters.putIfAbsent(key, () => value);
+        newParameters[key] = value;
       }
     });
+
+    // Log event name for debugging
     appLogsNS("eventName:$eventName");
-    newParameters.putIfAbsent(
-        'date_time', () => DateTime.now().toIso8601String());
-    // TODO: need to avoid parameters contains List value. This causes exception
-    await _firebaseAnalytics.logEvent(
+
+    // Add timestamp to parameters
+    newParameters['date_time'] = DateTime.now().toIso8601String();
+
+    // Log the event to Firebase Analytics
+    return _firebaseAnalytics.logEvent(
       name: eventName,
       parameters: newParameters,
       callOptions: callOptions,
@@ -106,10 +126,12 @@ class AppAnalytics implements FirebaseAnalytics {
   @override
   Future<void> logJoinGroup({
     required String groupId,
+    Map<String, Object>? parameters,
     AnalyticsCallOptions? callOptions,
-  }) async {
-    await _firebaseAnalytics.logJoinGroup(
+  }) {
+    return _firebaseAnalytics.logJoinGroup(
       groupId: groupId,
+      parameters: parameters,
       callOptions: callOptions,
     );
   }
@@ -117,24 +139,43 @@ class AppAnalytics implements FirebaseAnalytics {
   @override
   Future<void> logLogin({
     String? loginMethod,
+    Map<String, Object>? parameters,
     AnalyticsCallOptions? callOptions,
-  }) async {
-    await _firebaseAnalytics.logLogin(loginMethod: loginMethod);
+  }) {
+    return _firebaseAnalytics.logLogin(
+      loginMethod: loginMethod,
+      parameters: parameters,
+      callOptions: callOptions,
+    );
   }
 
   @override
-  Future<void> logSignUp({required String signUpMethod}) async {
-    await _firebaseAnalytics.logSignUp(signUpMethod: signUpMethod);
+  Future<void> logSignUp({
+    required String signUpMethod,
+    Map<String, Object>? parameters,
+  }) {
+    return _firebaseAnalytics.logSignUp(
+      signUpMethod: signUpMethod,
+      parameters: parameters,
+    );
   }
 
   @override
-  Future<void> logTutorialBegin() async {
-    await _firebaseAnalytics.logTutorialBegin();
+  Future<void> logTutorialBegin({
+    Map<String, Object>? parameters,
+  }) {
+    return _firebaseAnalytics.logTutorialBegin(
+      parameters: parameters,
+    );
   }
 
   @override
-  Future<void> logTutorialComplete() async {
-    await _firebaseAnalytics.logTutorialComplete();
+  Future<void> logTutorialComplete({
+    Map<String, Object>? parameters,
+  }) {
+    return _firebaseAnalytics.logTutorialComplete(
+      parameters: parameters,
+    );
   }
 
   @override
@@ -142,8 +183,8 @@ class AppAnalytics implements FirebaseAnalytics {
     required String? screenName,
     String screenClassOverride = 'Flutter',
     AnalyticsCallOptions? callOptions,
-  }) async {
-    await _firebaseAnalytics.setCurrentScreen(
+  }) {
+    return _firebaseAnalytics.setCurrentScreen(
       screenName: screenName,
       screenClassOverride: screenClassOverride,
       callOptions: callOptions,
@@ -154,8 +195,8 @@ class AppAnalytics implements FirebaseAnalytics {
   Future<void> setUserId({
     String? id,
     AnalyticsCallOptions? callOptions,
-  }) async {
-    await _firebaseAnalytics.setUserId(
+  }) {
+    return _firebaseAnalytics.setUserId(
       id: id,
       callOptions: callOptions,
     );
@@ -166,13 +207,15 @@ class AppAnalytics implements FirebaseAnalytics {
     required String name,
     String? value,
     AnalyticsCallOptions? callOptions,
-  }) async {
-    await _firebaseAnalytics.setUserProperty(
+  }) {
+    return _firebaseAnalytics.setUserProperty(
       name: name,
       value: value,
       callOptions: callOptions,
     );
   }
 
+  // Implement noSuchMethod to handle any undefined method calls
+  @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
